@@ -22,10 +22,7 @@ class OcrApp:
         # --- UI Controls ---
         self.select_button = ft.ElevatedButton(
             "画像ファイルを選択",
-            on_click=lambda _: self.file_picker.pick_files(
-                allow_multiple=True,
-                allowed_extensions=["png", "jpg", "jpeg", "bmp", "gif", "tiff"]
-            ),
+            on_click=self.open_file_dialog,
         )
         self.run_button = ft.ElevatedButton("文字起こし実行", on_click=self.run_ocr, disabled=True)
         self.save_button = ft.ElevatedButton("テキストを保存", on_click=self.save_text, disabled=True)
@@ -54,6 +51,13 @@ class OcrApp:
             ],
             expand=True,
         )
+
+    def open_file_dialog(self, e):
+        self.file_picker.pick_files(
+            allow_multiple=True,
+            allowed_extensions=["png", "jpg", "jpeg", "bmp", "gif", "tiff"]
+        )
+        self.page.update()
 
     def on_open_result(self, e: ft.FilePickerResultEvent):
         if e.files:
